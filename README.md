@@ -1,73 +1,216 @@
-# Welcome to your Lovable project
+# EvaluaCode Frontend
 
-## Project info
+AI-powered exam grading platform - Modern SPA built with React, TypeScript, and Vite.
 
-**URL**: https://lovable.dev/projects/cae15b7d-2716-4469-9dde-b9e525de19f0
+## 🚀 Quick Start
 
-## How can I edit this code?
+### Prerequisites
+- Node.js 20+ LTS
+- pnpm (recommended) or npm
 
-There are several ways of editing your application.
+### Installation
+```bash
+# Install dependencies
+pnpm install
 
-**Use Lovable**
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your API base URL
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cae15b7d-2716-4469-9dde-b9e525de19f0) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Start development server
+pnpm dev
 ```
 
-**Edit a file directly in GitHub**
+### Available Scripts
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm preview      # Preview production build
+pnpm lint         # Run ESLint
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🏗️ Architecture
 
-**Use GitHub Codespaces**
+### Technology Stack
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: TailwindCSS + shadcn/ui
+- **Routing**: React Router v6
+- **State Management**: Zustand
+- **Data Fetching**: React Query + Axios
+- **Forms**: React Hook Form + Zod
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Project Structure
+```
+src/
+├── components/       # Reusable UI components
+│   ├── ui/          # shadcn/ui components
+│   ├── ProtectedRoute.tsx
+│   └── AppLayout.tsx
+├── pages/           # Route pages
+│   ├── Login.tsx
+│   ├── Register.tsx
+│   ├── Dashboard.tsx
+│   ├── Courses.tsx
+│   └── Exams.tsx
+├── stores/          # Zustand stores
+│   └── auth-store.ts
+├── lib/             # Utilities
+│   ├── api-client.ts
+│   └── utils.ts
+└── hooks/           # Custom React hooks
+```
 
-## What technologies are used for this project?
+## 🔐 Authentication
 
-This project is built with:
+The app uses JWT-based authentication with automatic token refresh:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Access Token**: Short-lived (15 min), stored in localStorage
+2. **Refresh Token**: Long-lived (7 days), stored in localStorage
+3. **Automatic Refresh**: Interceptor handles token refresh on 401 errors
 
-## How can I deploy this project?
+### API Client Features
+- Automatic auth header injection
+- Token refresh flow
+- Error handling with toast notifications
+- Request/response interceptors
 
-Simply open [Lovable](https://lovable.dev/projects/cae15b7d-2716-4469-9dde-b9e525de19f0) and click on Share -> Publish.
+## 🎨 Design System
 
-## Can I connect a custom domain to my Lovable project?
+### Color Palette
+- **Primary**: Deep blue/indigo for trust and professionalism
+- **Success**: Emerald green for positive actions
+- **Warning**: Amber for alerts
+- **Destructive**: Red for errors
 
-Yes, you can!
+### Key Design Tokens
+```css
+--primary: Deep blue (HSL: 217 91% 40%)
+--success: Emerald green (HSL: 160 84% 39%)
+--gradient-primary: Blue-to-indigo gradient
+--shadow-elegant: Subtle elevation shadow
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Component Variants
+All components use semantic tokens from the design system defined in `src/index.css` and `tailwind.config.ts`. No hardcoded colors in components.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 🛣️ Routing & Guards
+
+### Route Protection
+- `<ProtectedRoute>`: Requires authentication
+- Role-based access with `allowedRoles` prop
+- Automatic redirect to `/login` if not authenticated
+- Redirect to `/unauthorized` if insufficient permissions
+
+### Routes
+- `/` → Redirects to dashboard or login
+- `/login` → Login page
+- `/register` → Registration page
+- `/dashboard` → Role-specific dashboard
+- `/courses` → Course listing and management
+- `/exams` → Exam listing and management
+- `/unauthorized` → Access denied page
+
+## 📦 State Management
+
+### Zustand Stores
+- **Auth Store**: User session, tokens, role
+  - Persisted to localStorage
+  - Auto-hydrates on app load
+
+## 🔌 API Integration
+
+### Base Configuration
+```typescript
+API_BASE_URL: http://localhost:3000 (configurable via .env)
+```
+
+### Key Endpoints
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/refresh` - Token refresh
+- `GET /api/courses` - List courses
+- `GET /api/exams` - List exams
+- `GET /api/health` - System health check
+
+### Error Handling
+- Centralized error handling in API client
+- Toast notifications for user-facing errors
+- Automatic logout on auth failure
+
+## 🎯 Key Features
+
+### Implemented
+- ✅ Authentication (login, register, logout)
+- ✅ Role-based routing (admin, docente, estudiante)
+- ✅ Dashboard with role-specific content
+- ✅ Courses listing with search
+- ✅ Exams listing with status badges
+- ✅ Responsive navigation layout
+- ✅ System health monitoring
+- ✅ Dark mode ready design system
+
+### TODO - Backend Integration Pending
+- 🔲 Course CRUD operations
+- 🔲 Exam creation and editing
+- 🔲 Exam submission flow (student)
+- 🔲 Grading interface (teacher)
+- 🔲 File upload component
+- 🔲 User management (admin)
+- 🔲 Enrollment management
+- 🔲 Grade reports
+
+## 🧪 Testing
+
+```bash
+# Run tests (when implemented)
+pnpm test
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+## 📱 Responsive Design
+
+The app is fully responsive with breakpoints:
+- Mobile: < 768px
+- Tablet: 768px - 1024px
+- Desktop: > 1024px
+
+## 🌐 Environment Variables
+
+```env
+VITE_API_BASE_URL=http://localhost:3000  # Backend API URL
+VITE_USE_MOCK_DATA=false                 # Enable mock data for development
+```
+
+## 🚀 Deployment
+
+```bash
+# Build for production
+pnpm build
+
+# Preview production build locally
+pnpm preview
+```
+
+The `dist/` folder contains the production-ready static files.
+
+## 📝 Code Style
+
+- ESLint + Prettier configured
+- TypeScript strict mode enabled
+- Component naming: PascalCase
+- File naming: PascalCase for components, kebab-case for utilities
+
+## 🤝 Contributing
+
+1. Follow the established patterns
+2. Use semantic tokens from design system
+3. Write TypeScript with proper types
+4. Test authentication flows thoroughly
+5. Update README for new features
+
+## 📄 License
+
+This project is part of the EvaluaCode platform.
