@@ -40,25 +40,7 @@ pnpm lint         # Run ESLint
 - **Data Fetching**: React Query + Axios
 - **Forms**: React Hook Form + Zod
 
-### Project Structure
-```
-src/
-├── components/       # Reusable UI components
-│   ├── ui/          # shadcn/ui components
-│   ├── ProtectedRoute.tsx
-│   └── AppLayout.tsx
-├── pages/           # Route pages
-│   ├── Login.tsx
-│   ├── Register.tsx
-│   ├── Dashboard.tsx
-│   ├── Courses.tsx
-│   └── Exams.tsx
-├── stores/          # Zustand stores
-│   └── auth-store.ts
-├── lib/             # Utilities
-│   ├── api-client.ts
-│   └── utils.ts
-└── hooks/           # Custom React hooks
+
 ```
 
 ## 🔐 Authentication
@@ -69,11 +51,7 @@ The app uses JWT-based authentication with automatic token refresh:
 2. **Refresh Token**: Long-lived (7 days), stored in localStorage
 3. **Automatic Refresh**: Interceptor handles token refresh on 401 errors
 
-### API Client Features
-- Automatic auth header injection
-- Token refresh flow
-- Error handling with toast notifications
-- Request/response interceptors
+
 
 ## 🎨 Design System
 
@@ -91,26 +69,6 @@ The app uses JWT-based authentication with automatic token refresh:
 --shadow-elegant: Subtle elevation shadow
 ```
 
-### Component Variants
-All components use semantic tokens from the design system defined in `src/index.css` and `tailwind.config.ts`. No hardcoded colors in components.
-
-## 🛣️ Routing & Guards
-
-### Route Protection
-- `<ProtectedRoute>`: Requires authentication
-- Role-based access with `allowedRoles` prop
-- Automatic redirect to `/login` if not authenticated
-- Redirect to `/unauthorized` if insufficient permissions
-
-### Routes
-- `/` → Redirects to dashboard or login
-- `/login` → Login page
-- `/register` → Registration page
-- `/dashboard` → Role-specific dashboard
-- `/courses` → Course listing and management
-- `/exams` → Exam listing and management
-- `/unauthorized` → Access denied page
-
 ## 📦 State Management
 
 ### Zustand Stores
@@ -118,20 +76,6 @@ All components use semantic tokens from the design system defined in `src/index.
   - Persisted to localStorage
   - Auto-hydrates on app load
 
-## 🔌 API Integration
-
-### Base Configuration
-```typescript
-API_BASE_URL: http://localhost:3000 (configurable via .env)
-```
-
-### Key Endpoints
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/refresh` - Token refresh
-- `GET /api/courses` - List courses
-- `GET /api/exams` - List exams
-- `GET /api/health` - System health check
 
 ### Error Handling
 - Centralized error handling in API client
@@ -148,27 +92,7 @@ API_BASE_URL: http://localhost:3000 (configurable via .env)
 - ✅ Exams listing with status badges
 - ✅ Responsive navigation layout
 - ✅ System health monitoring
-- ✅ Dark mode ready design system
 
-### TODO - Backend Integration Pending
-- 🔲 Course CRUD operations
-- 🔲 Exam creation and editing
-- 🔲 Exam submission flow (student)
-- 🔲 Grading interface (teacher)
-- 🔲 File upload component
-- 🔲 User management (admin)
-- 🔲 Enrollment management
-- 🔲 Grade reports
-
-## 🧪 Testing
-
-```bash
-# Run tests (when implemented)
-pnpm test
-
-# Run tests with coverage
-pnpm test:coverage
-```
 
 ## 📱 Responsive Design
 
@@ -211,6 +135,54 @@ The `dist/` folder contains the production-ready static files.
 4. Test authentication flows thoroughly
 5. Update README for new features
 
-## 📄 License
+## Datos de prueba
 
-This project is part of the EvaluaCode platform.
+🔑 Credenciales para probar login:
+Administrador:
+Email: admin@evaluacode.com
+Password: Admin123!
+
+Docentes:
+
+Email: profesorluis@universidad.edu
+Password: SecurePass123!
+Email: profesoraana@universidad.edu
+Password: SecurePass123!
+
+Estudiantes:
+
+Email: mariana.estudiante@universidad.edu
+Password: Student123!
+
+Email: carlos.estudiante@universidad.edu
+Password: Student123!
+
+Email: sofia.estudiante@universidad.edu
+Password: Student123!
+
+## Manual de usuario
+
+imagen de login 
+![Login](public/manual/login.png)
+
+![Register](public/manual/register.png)
+
+imagen de dashboard 
+![Dashboard](public/manual/panel_docente.png)
+
+imagen de cursos 
+![Login](public/manual/cursos_docente.png)
+
+![Login](public/manual/curso_detalle_docente.png)
+
+
+imagen de examenes ![Exams](public/manual/examen_docente.png)
+
+![Login](public/manual/examen_detalle_docente.png)
+
+![Login](public/manual/examen_crear.png)
+
+![Login](public/manual/pregunta_crear.png)
+
+
+imagen de perfil ![Profile](public/manual/rubricas.png)

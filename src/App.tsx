@@ -12,9 +12,17 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
+import CourseForm from "./pages/CourseForm";
+import CourseDetail from "./pages/CourseDetail";
 import Exams from "./pages/Exams";
+import ExamForm from "./pages/ExamForm";
+import ExamDetail from "./pages/ExamDetail";
+import Rubrics from "./pages/Rubrics";
+import RubricForm from "./pages/RubricForm";
+import RubricDetail from "./pages/RubricDetail";
 import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
+import Users from "./pages/Users";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,7 +41,12 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <Routes>
             {/* Public routes */}
             <Route
@@ -74,11 +87,131 @@ const App = () => {
               }
             />
             <Route
+              path="/courses/new"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <CourseForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/courses/:id"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <CourseDetail />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/courses/:id/edit"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <CourseForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/exams"
               element={
                 <ProtectedRoute>
                   <AppLayout>
                     <Exams />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exams/new"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <ExamForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/courses/:courseId/exams/new"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <ExamForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exams/:id"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <ExamDetail />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exams/:id/edit"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <ExamForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rubrics"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <Rubrics />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rubrics/new"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <RubricForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rubrics/:id"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
+                    <RubricDetail />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rubrics/:id/edit"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <RubricForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AppLayout>
+                    <Users />
                   </AppLayout>
                 </ProtectedRoute>
               }

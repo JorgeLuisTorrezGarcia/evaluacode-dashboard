@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Code2, LayoutDashboard, BookOpen, FileText, Upload, Users, LogOut, User } from 'lucide-react';
+import { Code2, LayoutDashboard, BookOpen, FileText, Upload, Users, LogOut, User, ClipboardList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AppLayoutProps {
@@ -29,10 +29,10 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Courses', href: '/courses', icon: BookOpen },
-    { name: 'Exams', href: '/exams', icon: FileText },
-    { name: 'Files', href: '/files', icon: Upload },
-    ...(user?.role === 'admin' ? [{ name: 'Users', href: '/users', icon: Users }] : []),
+    { name: 'Cursos', href: '/courses', icon: BookOpen },
+    { name: 'Exámenes', href: '/exams', icon: FileText },
+    { name: 'Rúbricas', href: '/rubrics', icon: ClipboardList },
+    ...(user?.role === 'admin' ? [{ name: 'Usuarios', href: '/users', icon: Users }] : []),
   ];
 
   return (
@@ -84,7 +84,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>Cerrar sesión</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

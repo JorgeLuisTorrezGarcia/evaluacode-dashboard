@@ -39,15 +39,15 @@ export default function Login() {
     onSuccess: (data) => {
       setAuth(data.data.user, data.data.tokens.accessToken, data.data.tokens.refreshToken);
       toast({
-        title: 'Welcome back!',
-        description: 'Successfully logged in',
+        title: '¡Bienvenido de vuelta!',
+        description: 'Has iniciado sesión correctamente.',
       });
       navigate('/dashboard');
     },
     onError: () => {
       toast({
-        title: 'Login failed',
-        description: 'Invalid email or password',
+        title: 'Fallo en el inicio de sesión',
+        description: 'Email o contraseña incorrectos.',
         variant: 'destructive',
       });
     },
@@ -57,8 +57,8 @@ export default function Login() {
     e.preventDefault();
     if (!email || !password) {
       toast({
-        title: 'Missing fields',
-        description: 'Please fill in all fields',
+        title: 'Campos faltantes',
+        description: 'Por favor, rellena todos los campos.',
         variant: 'destructive',
       });
       return;
@@ -76,29 +76,29 @@ export default function Login() {
           <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             EvaluaCode
           </h1>
-          <p className="text-muted-foreground mt-2">AI-Powered Exam Grading Platform</p>
+          <p className="text-muted-foreground mt-2">Plataforma de Calificación de Exámenes con IA</p>
         </div>
 
         <Card className="shadow-card border-border/50">
           <CardHeader>
-            <CardTitle>Welcome back</CardTitle>
-            <CardDescription>Sign in to your account to continue</CardDescription>
+            <CardTitle>Bienvenido de vuelta</CardTitle>
+            <CardDescription>Inicia sesión en tu cuenta para continuar</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Correo Electrónico</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="tu@ejemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Contraseña</Label>
                 <Input
                   id="password"
                   type="password"
@@ -116,17 +116,17 @@ export default function Login() {
                 {loginMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Signing in...
+                    Iniciando sesión...
                   </>
                 ) : (
-                  'Sign in'
+                  'Iniciar sesión'
                 )}
               </Button>
             </form>
             <div className="mt-4 text-center text-sm">
-              <span className="text-muted-foreground">Don't have an account? </span>
+              <span className="text-muted-foreground">¿No tienes una cuenta? </span>
               <Link to="/register" className="text-primary hover:underline font-medium">
-                Sign up
+                Regístrate
               </Link>
             </div>
           </CardContent>
