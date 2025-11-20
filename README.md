@@ -10,15 +10,9 @@ AI-powered exam grading platform - Modern SPA built with React, TypeScript, and 
 
 ### Installation
 ```bash
-# Install dependencies
-pnpm install
-
-# Configure environment variables
-cp .env.example .env
-# Edit .env with your API base URL
-
-# Start development server
-pnpm dev
+bun install
+bun run build
+bun dev  # opcional
 ```
 
 ### Available Scripts
