@@ -1,3 +1,6 @@
+import type { QuestionConfig, QuestionType } from './question';
+import type { UploadedFile } from './upload';
+
 export interface Exam {
   id: string;
   titulo: string;
@@ -27,16 +30,76 @@ export interface Exam {
     questionCount: number;
   };
   questions?: ExamQuestion[];
+  submissions?: ExamSubmission[];
 }
 
 export interface ExamQuestion {
   id: string;
   orden: number;
-  tipo: string;
+  tipo: QuestionType;
   puntos: number;
   title?: string;
   prompt?: string;
   pageNumber?: number | null;
+  config?: QuestionConfig | null;
+  bbox?: Record<string, unknown> | null;
+}
+
+export type QuestionDraftValue = string | string[] | null;
+
+export interface QuestionDraft {
+  questionId: string;
+  value: QuestionDraftValue;
+  timeSpent?: number;
+  files?: UploadedFile[];
+}
+
+export interface SubmitExamAnswer {
+  questionId: string;
+  response: string;
+  timeSpent?: number;
+}
+
+export interface SubmitExamPayload {
+  answers: SubmitExamAnswer[];
+  totalTimeSpent?: number;
+  additionalFiles?: string[];
+}
+
+export interface SubmitExamResponse {
+  submissionId: string;
+  submittedAt: string;
+  totalTimeSpent?: number;
+  attemptNumber: number;
+  maxAttempts: number;
+}
+
+export interface ExamSubmissionAnswer {
+  id: string;
+  questionId: string;
+  rawText: string | null;
+  manualScore?: number | null;
+  manualFeedback?: string | null;
+  question?: {
+    id: string;
+    puntos: number;
+  };
+}
+
+export interface ExamSubmission {
+  id: string;
+  examId: string;
+  studentId: string;
+  submittedAt: string;
+  finalScore?: number | null;
+  maxScore?: number | null;
+  generalFeedback?: string | null;
+  bonusAwarded?: number | null;
+  student?: {
+    id: string;
+    email: string;
+  };
+  answers: ExamSubmissionAnswer[];
 }
 
 export interface ExamsResponse {

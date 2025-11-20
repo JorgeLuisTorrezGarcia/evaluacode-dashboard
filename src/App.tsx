@@ -14,9 +14,11 @@ import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
 import CourseForm from "./pages/CourseForm";
 import CourseDetail from "./pages/CourseDetail";
-import Exams from "./pages/Exams";
-import ExamForm from "./pages/ExamForm";
-import ExamDetail from "./pages/ExamDetail";
+import Exams from './pages/Exams';
+import ExamForm from './pages/ExamForm';
+import ExamDetail from './pages/ExamDetail';
+import StudentExamAttempt from './pages/StudentExamAttempt';
+import SubmissionReview from './pages/SubmissionReview';
 import Rubrics from "./pages/Rubrics";
 import RubricForm from "./pages/RubricForm";
 import RubricDetail from "./pages/RubricDetail";
@@ -157,11 +159,31 @@ const App = () => {
               }
             />
             <Route
+              path="/exams/:id/tomar"
+              element={
+                <ProtectedRoute allowedRoles={["estudiante"]}>
+                  <AppLayout>
+                    <StudentExamAttempt />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/exams/:id/edit"
               element={
                 <ProtectedRoute allowedRoles={['admin', 'docente']}>
                   <AppLayout>
                     <ExamForm />
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exams/:examId/submissions/:submissionId/review"
+              element={
+                <ProtectedRoute allowedRoles={['admin', 'docente']}>
+                  <AppLayout>
+                    <SubmissionReview />
                   </AppLayout>
                 </ProtectedRoute>
               }
