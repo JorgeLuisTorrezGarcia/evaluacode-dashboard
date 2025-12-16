@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Loader2, ArrowLeft, Award, User, CalendarClock, Sparkles } from 'lucide-react';
+import { Loader2, ArrowLeft, Award, User, CalendarClock, Sparkles, Brain } from 'lucide-react';
 
 import apiClient from '@/lib/api-client';
 import { useAuthStore } from '@/stores/auth-store';
 import { useGradeSubmission } from '@/hooks/use-grade-submission';
 import { useGenerateAiFeedback } from '@/hooks/use-ai-feedback';
+import { useAiScoring, type AiScoreResponse } from '@/hooks/use-ai-scoring';
 import { toast } from '@/hooks/use-toast';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -119,6 +120,7 @@ export default function SubmissionReview() {
   const [generalFeedback, setGeneralFeedback] = useState('');
   const [bonus, setBonus] = useState('0');
   const [aiTargetQuestionId, setAiTargetQuestionId] = useState<string | null>(null);
+  const [aiScoringTarget, setAiScoringTarget] = useState<string | null>(null);
 
   useEffect(() => {
     if (!sortedAnswers.length) return;
@@ -169,6 +171,27 @@ export default function SubmissionReview() {
           };
         });
         setAiTargetQuestionId(null);
+      }
+    }
+  );
+
+  const aiScoringMutation = useAiScoring(
+    { examId: examId ?? '', submissionId: submissionId ?? '' },
+    {
+      onSuccess: (score: number, reasoning?: string) => {
+        if (!aiScoringTarget) return;
+        setGrades((prev) => {
+          const current = prev[aiScoringTarget] ?? { ...INITIAL_GRADE_STATE };
+          return {
+            ...prev,
+            [aiScoringTarget]: {
+              ...current,
+              score: String(score),
+              feedback: reasoning ? `${current.feedback}\n\n[Razón IA: ${reasoning}]`.trim() : current.feedback
+            }
+          };
+        });
+        setAiScoringTarget(null);
       }
     }
   );
@@ -514,6 +537,33 @@ export default function SubmissionReview() {
                             />
                             <span className="text-sm text-muted-foreground">/ {question?.puntos ?? '—'} pts</span>
                           </div>
+                        </div>
+                        <div className="flex justify-end">
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            className="gap-2"
+                            disabled={aiScoringMutation.isPending && aiScoringTarget === answer.questionId}
+                            onClick={() => {
+                              setAiScoringTarget(answer.questionId);
+                              aiScoringMutation.mutate({
+                                questionId: answer.questionId,
+                                studentAnswer: formatAnswerForPrompt(question, answer),
+                                maxPoints: question?.puntos ?? 0,
+                                questionType: question?.tipo ?? 'text',
+                                questionPrompt: question?.prompt,
+                                context: gradeState.feedback?.trim() ? `Feedback actual: ${gradeState.feedback}` : undefined
+                              });
+                            }}
+                          >
+                            {aiScoringMutation.isPending && aiScoringTarget === answer.questionId ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Brain className="h-4 w-4" />
+                            )}
+                            Calificar con IA
+                          </Button>
                         </div>
                       </TabsContent>
                       <TabsContent value="feedback" className="space-y-3 border px-4 py-3">
